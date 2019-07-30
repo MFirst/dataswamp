@@ -1,0 +1,30 @@
+{
+  "name": "dataswamp-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "dev": "ts-node-dev --respawn --transpileOnly ./app/index.ts",
+    "test": "mocha -r ts-node/register app/**/*.test.ts",
+    "testWithCoverage": "nyc -r text -e .ts -x \"app/**/*.test.ts\" mocha -r ts-node/register app/**/*.test.ts"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.17.0",
+    "express": "^4.17.1",
+    "sqlite3": "^4.0.9",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "typescript": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.8",
+    "@types/sqlite3": "^3.1.5",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1"
+  }
+}
