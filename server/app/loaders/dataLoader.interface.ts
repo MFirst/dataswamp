@@ -1,3 +1,5 @@
-export default interface DataLoader {
-    loadFile(path: string): void
+import FileDataView from "./fileDataView";
+
+export default interface IDataLoader {
+    parseFile(path: string): Promise<FileDataView>
 }

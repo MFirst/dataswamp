@@ -1,44 +1,34 @@
-import DataLoader from './dataLoader.interface';
+import IDataLoader from './dataLoader.interface';
 import FileColumnsInfo from './fileColumnsInfo'
 import * as fs from 'fs';
 import csvParser from 'csv-parser';
+import FileDataView from './fileDataView';
 
 
-export default class CsvDataLoader implements DataLoader {
+export default class CsvDataLoader implements IDataLoader {
 
-    result: Array<any>; 
-
-    constructor (){
-      this.result = [];
-    }
-
-    loadFile(path: string): Promise<Array<any>> {
+    parseFile(path: string): Promise<FileDataView> {
         const results: Array<any> = [];
-        console.log('loading...', path)
         
-    const resultPromise = new Promise<Array<any>>((resolve, reject) => {
-        fs.createReadStream(path) //return promise as func
+    const resultPromise = new Promise<FileDataView>((resolve, reject) => {
+        fs.createReadStream(path)  
           .pipe(csvParser())
           .on('data', data => {
-    
               results.push(data)
             })
-          .on('end', () => { // resolve promise
-            resolve(results);
-            this.result = results;
-            console.log(results);
+          .on('end', () => {
+            resolve(this.getFileColumnsInfo(results));
           });
     })
-
       return resultPromise;
     }
 
-    getFileColumnsInfo(){
+    getFileColumnsInfo(results: Array<any>): FileDataView{ // add this to interface
 
-      let firstObj = this.result[0];
+      let firstObj = results[0];
       let columns = Object.keys(firstObj);
+      let columnsInfo = new FileColumnsInfo(columns.length, columns);
 
-      return new FileColumnsInfo(columns.length, columns);
+      return new FileDataView(columnsInfo, results);
     }
-
 }
