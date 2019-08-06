@@ -1,6 +1,16 @@
 import { iDs } from "./iDs";
+import { IDatabaseConnector } from "./IDatabaseConnector"
+import { DatabaseConnetor } from "./DatabaseConnector";
+
 export class Sqlite implements iDs {
-    createTable(tableName: string, tableColumns: Array<string>): string {
+    private databaseConnector : IDatabaseConnector;
+
+    constructor(dbfilepath: string, dbfilename : string) {
+          this.databaseConnector = new DatabaseConnetor();
+          this.databaseConnector.createDatabase(dbfilepath, dbfilename);
+    }
+
+    createTable(tableName: string, tableColumns: Array<string>): Promise<any> {
         if (tableName === "" || !tableName) {
             throw new Error("Invalid table name");
         }
@@ -20,9 +30,8 @@ export class Sqlite implements iDs {
 
         query = query.substring(0, query.length - 1);
         query += ");"
-        return query;
-
-
+        
+        return this.databaseConnector.runSql(query);
     }
 
 
