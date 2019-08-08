@@ -6,14 +6,15 @@ export default class BasicAnalytics implements Analytics {
     constructor(columns: Array<AnalyticsColumn>) {
         this.columns = columns
     }
-    public columns : Array<AnalyticsColumn>;
+    public columns : Array<AnalyticsColumn>
 
     initialize(columns: string[]): void {
-        let column = new AnalyticsColumn(columns[0])
-        this.columns.push(column);
+        columns.forEach(col => {
+            this.columns.push(new AnalyticsColumn(col));
+        })
     }    
     
     feed(row: string[]): void {
-        throw new Error("Method not implemented.");
+        throw new Error("Method not implemented.")
     }
 }
