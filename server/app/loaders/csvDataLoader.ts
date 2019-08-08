@@ -7,28 +7,35 @@ import FileDataView from './fileDataView';
 
 export default class CsvDataLoader implements IDataLoader {
 
-    parseFile(path: string): Promise<FileDataView> {
-        const results: Array<any> = [];
-        
-    const resultPromise = new Promise<FileDataView>((resolve, reject) => {
-        fs.createReadStream(path)  
-          .pipe(csvParser())
-          .on('data', data => {
-              results.push(data)
-            })
-          .on('end', () => {
-            resolve(this.getFileColumnsInfo(results));
-          });
+  async parseFile(path: string): Promise<FileDataView> {
+    await fs.stat(path, function (err) {
+      if (err) {
+        throw new Error(`File '${path}' was not found.`);
+      }
     })
-      return resultPromise;
-    }
+ 
 
-    getFileColumnsInfo(results: Array<any>): FileDataView{ // add this to interface
+    const results: Array<Array<string>> = [];
+    const resultPromise = new Promise<FileDataView>((resolve, reject) => {
 
-      let firstObj = results[0];
-      let columns = Object.keys(firstObj);
-      let columnsInfo = new FileColumnsInfo(columns.length, columns);
+      fs.createReadStream(path)
+        .pipe(csvParser())
+        .on('data', data => {
+          results.push(data)
+        })
+        .on('end', () => {
+          resolve(this.getFileColumnsInfo(results));
+        });
+    })
+    return resultPromise;
+  }
 
-      return new FileDataView(columnsInfo, results);
-    }
+  getFileColumnsInfo(results: Array<Array<string>>): FileDataView { // check for unexsting value in csv  (a,,c)
+
+    let firstObj = results[0];
+    let columns = Object.keys(firstObj);
+    let columnsInfo = new FileColumnsInfo(columns.length, columns);
+
+    return new FileDataView(columnsInfo, results);
+  }
 }

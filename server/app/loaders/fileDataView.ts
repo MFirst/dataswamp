@@ -2,9 +2,9 @@ import FileColumnsInfo from "./fileColumnsInfo";
 
 export default class FileDataView {
     columnsInfo: FileColumnsInfo;
-    data: Array<any>;
+    data: Array<Array<string>>;
 
-    constructor(columnsInfo: FileColumnsInfo, data: Array<any>) {
+    constructor(columnsInfo: FileColumnsInfo, data: Array<Array<string>>) {
         this.columnsInfo = columnsInfo;
         this.data = data;
     }
