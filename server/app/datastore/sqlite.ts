@@ -11,31 +11,56 @@ export class Sqlite implements IDs {
     }
 
     createTable(tableName: string, tableColumns: Array<string>): Promise<any> {
-        if (tableName === "" || !tableName) {
-            throw new Error("Invalid table name");
-        }
-
-        if (tableColumns === null || tableColumns.length <= 0) {
-            throw new Error("You need to provide at least one column for the table")
-        }
-
-        tableName = this.replaceInvalidCharacters(tableName);
+        tableName = this.validateData(tableName, tableColumns);
 
         let query = `CREATE TABLE ${tableName} ( ${tableColumns.join(" varchar, ")} varchar);`;
-
+console.log(query);
         return this.databaseConnector.runSql(query);
     }
 
 
-    insert(tableName: string, data: Array<string>): void {
+    insertValues(tableName: string, data: Array<Array<string>>, chunkSize: number = 50): void {
+        tableName = this.validateData(tableName, data);
+        if (chunkSize <= 0) {
+            throw new Error("Watch your language young man!");
+        }
 
+        let sqlScript = "";
+
+        for (let i = 0; i < data.length; i++) {
+            
+            sqlScript += `INSERT INTO ${tableName}`
+            
+            
+            if (i % chunkSize === 0) {
+                this.databaseConnector.runSql(sqlScript);
+            }
+        }
     };
 
-    delete(tableName: string): void {
+    getTableDefinition(tableName : string){
+       //  this.databaseConnector.
+    }
+
+    drop(tableName: string): void {
 
     }
 
+    
+
+    validateData(tableName: string, data: Array<Object>): string {
+        if (tableName === "" || !tableName) {
+            throw new Error("Invalid table name");
+        }
+
+        if (data === null || data.length <= 0) {
+            throw new Error("Data is invalid.")
+        }
+
+        return this.replaceInvalidCharacters(tableName);
+    }
+
     replaceInvalidCharacters(literal: string): string {
-        return literal.replace(/[a-zA-Z1-9_]/gi, '');
+        return literal;
     }
 }
