@@ -1,13 +1,13 @@
-import { iDs } from "./iDs";
+import { IDs } from "./iDs";
 import { IDatabaseConnector } from "./IDatabaseConnector"
 import { DatabaseConnetor } from "./DatabaseConnector";
 
-export class Sqlite implements iDs {
-    private databaseConnector : IDatabaseConnector;
+export class Sqlite implements IDs {
+    private databaseConnector: IDatabaseConnector;
 
-    constructor(dbfilepath: string, dbfilename : string) {
-          this.databaseConnector = new DatabaseConnetor();
-          this.databaseConnector.createDatabase(dbfilepath, dbfilename);
+    constructor(dbfilepath: string, dbfilename: string) {
+        this.databaseConnector = new DatabaseConnetor();
+        this.databaseConnector.createDatabase(dbfilepath, dbfilename);
     }
 
     createTable(tableName: string, tableColumns: Array<string>): Promise<any> {
@@ -21,16 +21,8 @@ export class Sqlite implements iDs {
 
         tableName = this.replaceInvalidCharacters(tableName);
 
-        let query = "";
-        query = "CREATE TABLE " + tableName + " ( ";
+        let query = `CREATE TABLE ${tableName} ( ${tableColumns.join(" varchar, ")} varchar);`;
 
-        for (let i = 0; i < tableColumns.length; i++) {
-            query += tableColumns[i] + " varchar,";
-        }
-
-        query = query.substring(0, query.length - 1);
-        query += ");"
-        
         return this.databaseConnector.runSql(query);
     }
 
@@ -44,6 +36,6 @@ export class Sqlite implements iDs {
     }
 
     replaceInvalidCharacters(literal: string): string {
-        return literal.replace(/[^a-z0-9]/gi, '');
+        return literal.replace(/[a-zA-Z1-9_]/gi, '');
     }
 }

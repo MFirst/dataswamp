@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { Sqlite } from "./sqlite";
-import { iDs } from "./iDs";
+import { IDs } from "./iDs";
 
 describe('dataStoreTest', function () {
-  const s: iDs = new Sqlite();
+  const s: IDs = new Sqlite();
   it('createTable', function () {
 
     let result = s.createTable("awesomeTableName", ['Id', 'FirstName', 'LastName', 'Age']);
