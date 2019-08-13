@@ -16,13 +16,13 @@ export default class BasicAnalytics implements Analytics {
 
     feed(row: string[]): void {
         row.forEach((cell, index) => {
-            const isFloat = parseFloat(cell) ? true : false;
-
             if (cell === undefined) {
                 this.columns[index].nullCount++;
-            } else if (isFloat) {
+            } else if(cell.match(/^-{0,1}\d+$/)){
                 this.columns[index].numberCount++;
-            } else {
+              }else if(cell.match(/^\d+\.\d+$/)){
+                this.columns[index].floatCount++;
+              } else {
                 const lowerCaseValue = cell.toLowerCase();
 
                 if (lowerCaseValue === 'true' || lowerCaseValue === 'false') {
