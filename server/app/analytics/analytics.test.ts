@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import BasicAnalytics from './analytics';
 
 let analytics = new BasicAnalytics([])
-const data = [['1', '2', '3'], ['true', '2', '3.2'], ['3', undefined, '4'], ['false', 'ale', 'nn'], ['12/12/2020', 'tt', 'true']];
+const data = [['1', '2', '3'], ['true', '2', '3.2'], ['3', undefined, '4'], ['false', 'ale', 'nn'], ['1566283515856', 'tt', 'true']];
 analytics.initialize(['a', 'b', 'c'])
   data.forEach((row: Array<any | undefined>) => {
     analytics.feed(row);

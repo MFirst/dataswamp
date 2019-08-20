@@ -18,22 +18,26 @@ export default class BasicAnalytics implements Analytics {
     row.forEach((cell, index) => {
       if (cell === undefined) {
         this.columns[index].nullCount++;
-      } else if(cell.match(/^-{0,1}\d+$/)){
-        this.columns[index].numberCount++;
-      }else if(cell.match(/^\d+\.\d+$/)){
-        this.columns[index].floatCount++;
       } else {
-        const lowerCaseValue = cell.toLowerCase();
-
-        if (lowerCaseValue === 'true' || lowerCaseValue === 'false') {
-          this.columns[index].boolCount++;
+        let isDate = false;
+        if(cell.length === 13) {
+          isDate = Date.parse(new Date(+cell).toDateString()) ? true : false;
         } else {
-          const isDate = Date.parse(cell) ? true : false;
+          isDate = Date.parse(cell) ? true : false;
+        } 
+        if(isDate) {
+          this.columns[index].dateCount++;
+        } else if(cell.match(/^-{0,1}\d+$/)){
+          this.columns[index].numberCount++;
+        } else if(cell.match(/^\d+\.\d+$/)){
+          this.columns[index].floatCount++;
+        } else {
+          const lowerCaseValue = cell.toLowerCase();
 
-          if (isDate) {
-            this.columns[index].dateCount++;
-          } else {
-            this.columns[index].stringCount++;
+          if (lowerCaseValue === 'true' || lowerCaseValue === 'false') {
+            this.columns[index].boolCount++;
+          }  else {
+              this.columns[index].stringCount++;
           }
         }
       }
