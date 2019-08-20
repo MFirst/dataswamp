@@ -23,7 +23,6 @@ describe("instantiate", function () {
         console.log(rows);
       });
     });
-
     // it("cleanup", () => {
     //   unlink("data/testdb.db", () => {});
     // });

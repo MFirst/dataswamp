@@ -10,6 +10,7 @@ describe('dataStoreTest', function () {
     expect(result).equal("CREATE TABLE awesomeTableName ( Id varchar,FirstName varchar,LastName varchar,Age varchar);");
   });
 
-  it('')
-
+  it("drop table", async () => {
+    
+  });
 });

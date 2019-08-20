@@ -6,6 +6,7 @@ export class Sqlite implements IDs {
     private databaseConnector: IDatabaseConnector;
 
     constructor(dbfilepath: string, dbfilename: string) {
+        //to do: create if not exists
         this.databaseConnector = new DatabaseConnetor();
         this.databaseConnector.createDatabase(dbfilepath, dbfilename);
     }
@@ -14,7 +15,7 @@ export class Sqlite implements IDs {
         tableName = this.validateData(tableName, tableColumns);
 
         let query = `CREATE TABLE ${tableName} ( ${tableColumns.join(" varchar, ")} varchar);`;
-console.log(query);
+        console.log(query);
         return this.databaseConnector.runSql(query);
     }
 
@@ -38,15 +39,11 @@ console.log(query);
         }
     };
 
-    getTableDefinition(tableName : string){
-       //  this.databaseConnector.
-    }
-
     drop(tableName: string): void {
-
+        let sqlScript = `DROP TABLE ${tableName};`
+        this.databaseConnector.runSql(sqlScript);
     }
 
-    
 
     validateData(tableName: string, data: Array<Object>): string {
         if (tableName === "" || !tableName) {

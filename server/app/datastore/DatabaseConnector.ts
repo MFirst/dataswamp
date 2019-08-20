@@ -14,18 +14,24 @@ export class DatabaseConnetor implements IDatabaseConnector {
         }
     }
 
-    getTableDetails(tableName: string) : void {
+    async getTableDetails(tableName: string): Promise<any> {
+        console.log("begining");
         var data = [];
+        console.log(this.db);
         if (this.db) {
-            this.db.run(`PRAGMA table_info('${tableName}') `, [], function (rsp : any) {
-                console.log(typeof rsp)
-                if (rsp.rows.length > 0) {
-                    for (var i = 0; i < rsp.rows.length; i++) {
-                        data.push(rsp.rows.item(i).name);
-                    }
-                }
-                console.log(rsp.rows.item(0).name);
-
+            let query = `PRAGMA table_info('${tableName}'); `;
+            console.log(query);
+            await this.db.run(query, function (err: any, rsp: Array<any>) {
+                console.log('running query');
+                console.log(typeof rsp);
+                console.log(rsp);
+                // if (rsp.rows.length > 0) {
+                //     for (var i = 0; i < rsp.rows.length; i++) {
+                //         data.push(rsp.rows.item(i).name);
+                //     }
+                // }
+                // console.log(rsp.rows.item(0).name);
+                return Promise.resolve(rsp);
             }, function (error: any) {
                 console.log(JSON.stringify(error));
             });

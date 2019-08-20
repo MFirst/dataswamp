@@ -9,11 +9,16 @@ describe("instantiate", function () {
     });
 
     it("create table", async () => {
-        await instance.createTable("testTable", ['Id', 'FirstName']);
+        await instance.createTable("testTable1", ['Id', 'FirstName']);
     });
 
     
     // it("run sql", async () => {
     //     await instance.runSql("sqlSatement");
     // });
+
+    it("gettabledetails", async() => {
+        await instance.getTableDefinition("testTable");
+    });
+
 })
