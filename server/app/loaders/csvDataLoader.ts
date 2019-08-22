@@ -7,12 +7,12 @@ import FileDataView from './fileDataView';
 
 export default class CsvDataLoader implements IDataLoader {
 
-  async parseFile(path: string): Promise<FileDataView> {
-    await fs.stat(path, function (err) {
-      if (err) {
-        throw new Error(`File '${path}' was not found.`);
-      }
-    })
+  parseFile(path: string): Promise<FileDataView> {
+    // await fs.stat(path, function (err) {
+    //   if (err) {
+    //     throw new Error(`File '${path}' was not found.`);
+    //   }
+    // })
  
 
     const results: Array<Array<string>> = [];
