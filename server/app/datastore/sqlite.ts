@@ -5,16 +5,16 @@ import { DatabaseConnetor } from "./DatabaseConnector";
 export class Sqlite implements IDs {
     private databaseConnector: IDatabaseConnector;
 
-    constructor(dbfilepath: string, dbfilename: string) {
+    constructor(dbfilename: string) {
         //to do: create if not exists
         this.databaseConnector = new DatabaseConnetor();
-        this.databaseConnector.createDatabase(dbfilepath, dbfilename);
+        this.databaseConnector.createDatabase(dbfilename);
     }
 
     createTable(tableName: string, tableColumns: Array<string>): Promise<any> {
         tableName = this.validateData(tableName, tableColumns);
 
-        let query = `CREATE TABLE ${tableName} ( ${tableColumns.join(" varchar, ")} varchar);`;
+        let query = `CREATE TABLE ${tableName} ( id INTEGER PRIMARY KEY, ${tableColumns.join(" varchar, ")} varchar);`;
         console.log(query);
         return this.databaseConnector.runSql(query);
     }
@@ -42,6 +42,11 @@ export class Sqlite implements IDs {
     drop(tableName: string): void {
         let sqlScript = `DROP TABLE ${tableName};`
         this.databaseConnector.runSql(sqlScript);
+    }
+
+    dropDatabase(databaseName:string): void{
+        let script = `DROP DATABASE ${databaseName};`
+        this.databaseConnector.runSql(script);
     }
 
 

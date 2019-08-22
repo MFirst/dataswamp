@@ -1,24 +1,18 @@
 import { expect } from 'chai';
 import { Sqlite } from "./sqlite";
 
-describe("instantiate", function () {
-    let instance = new Sqlite(".", "testdb.db");
+describe("televizor", function () {
+    let instance = new Sqlite("testdb1.db");
 
     it("create database", function () {
         expect(instance).to.not.be.undefined;
     });
 
     it("create table", async () => {
-        await instance.createTable("testTable1", ['Id', 'FirstName']);
+        await instance.createTable("testTable1", ['Age', 'FirstName']);
     });
 
-    
-    // it("run sql", async () => {
-    //     await instance.runSql("sqlSatement");
-    // });
-
-    it("gettabledetails", async() => {
-        await instance.getTableDefinition("testTable");
+    it("drop table", async() => {
+        await instance.drop("testTable1");
     });
-
 })

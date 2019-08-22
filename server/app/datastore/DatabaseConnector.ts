@@ -1,16 +1,24 @@
 import { IDatabaseConnector } from "./IDatabaseConnector";
 import { Database, RunResult } from "sqlite3"
+import { threadId } from "worker_threads";
 
 export class DatabaseConnetor implements IDatabaseConnector {
     private db: Database | undefined;
 
-    createDatabase(databasePath: string, databaseName: string): void {
-        this.db = new Database(`${databasePath}/${databaseName}`);
+    createDatabase(databaseName: string): void {
+        console.log(`${databaseName}`);
+        this.db = new Database(`${databaseName}`);
     }
 
     async runSql(sqlStatement: string): Promise<any> {
         if (this.db) {
             await this.db.run(sqlStatement);
+        }
+    }
+
+    async getSql(sqlStatement: string) : Promise<any>{
+        if (this.db){
+            return await this.db.get(sqlStatement);
         }
     }
 
