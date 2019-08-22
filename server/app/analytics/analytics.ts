@@ -22,7 +22,7 @@ export default class BasicAnalytics implements Analytics {
         let isDate = false;
         if(cell.length === 13) {
           isDate = Date.parse(new Date(+cell).toDateString()) ? true : false;
-        } else {
+        } else if (/[a-z]+/.test(cell)) {
           isDate = Date.parse(cell) ? true : false;
         } 
         if(isDate) {
