@@ -6,7 +6,8 @@
   "scripts": {
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/index.ts",
-    "test": "mocha -r ts-node/register app/**/csvDataLoader.test.ts",
+    "test": "mocha -r ts-node/register app/**/*.test.ts",
+    "testAnalytic": "mocha -r ts-node/register app/**/analytics.test.ts",
     "testWithCoverage": "nyc -r text -e .ts -x \"app/**/*.test.ts\" mocha -r ts-node/register app/**/*.test.ts"
   },
   "author": "",
