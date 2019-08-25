@@ -24,8 +24,8 @@ describe("instantiate", function() {
       });
     });
 
-    it("cleanup", () => {
-      unlink("data/testdb.db", () => {});
-    });
+    // it("cleanup", () => {
+    //   unlink("data/testdb.db", () => {});
+    // });
   });
 });
