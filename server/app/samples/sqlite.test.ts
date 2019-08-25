@@ -2,14 +2,14 @@ import { expect } from "chai";
 import SQLLite from "./sqlite";
 import { unlink } from "fs";
 
-describe("instantiate", function() {
+describe("instantiate", function () {
   let instance = new SQLLite("data/testdb.db");
 
-  it("create database", function() {
+  it("create database", function () {
     expect(instance).to.not.be.undefined;
   });
 
-  describe("tables", function() {
+  describe("tables", function () {
     it("create table", async () => {
       await instance.createTable();
     });
@@ -23,9 +23,8 @@ describe("instantiate", function() {
         console.log(rows);
       });
     });
-
-    it("cleanup", () => {
-      unlink("data/testdb.db", () => {});
-    });
+    // it("cleanup", () => {
+    //   unlink("data/testdb.db", () => {});
+    // });
   });
 });
