@@ -2,7 +2,7 @@ import { IDs } from "./iDs";
 import { IDatabaseConnector } from "./IDatabaseConnector"
 import { DatabaseConnetor } from "./DatabaseConnector";
 
-export class Sqlite implements IDs {
+export default class Sqlite implements IDs {
     private databaseConnector: IDatabaseConnector;
 
     constructor(dbfilename: string) {
@@ -29,10 +29,10 @@ export class Sqlite implements IDs {
         let sqlScript = "";
 
         for (let i = 0; i < data.length; i++) {
-            
+
             sqlScript += `INSERT INTO ${tableName}`
-            
-            
+
+
             if (i % chunkSize === 0) {
                 this.databaseConnector.runSql(sqlScript);
             }
@@ -44,7 +44,7 @@ export class Sqlite implements IDs {
         this.databaseConnector.runSql(sqlScript);
     }
 
-    dropDatabase(databaseName:string): void{
+    dropDatabase(databaseName: string): void {
         let script = `DROP DATABASE ${databaseName};`
         this.databaseConnector.runSql(script);
     }
