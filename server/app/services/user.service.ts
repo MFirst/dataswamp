@@ -1,15 +1,23 @@
 
-import Sqlite from '../datastore/sqlite';
+import SQLExecutor from '../ds/sql.executor';
 
-const sqlite = new Sqlite('');
 const uuidv4 = require('uuid/v4')
 
-export class UserService {
+import { saltHashPassword } from '../utils/hashPass';
 
-  static createUser({ email, password }: any) {
+export default class UserService {
+  constructor(dbName: string) {
+    this.sqlExecutor = new SQLExecutor(dbName);
+  }
+
+  public sqlExecutor: SQLExecutor;
+
+  async createUser({ email, password }: any) {
     const uid = uuidv4();
 
-    sqlite.insertValues('users', [])
+    const salt = saltHashPassword(password);
+
+    return await this.sqlExecutor.insertValues('user', ['uid', 'email', 'password', 'salt'], [[uid, email, password, salt]])
   }
 
   static getUserByEmail(email: string) {
