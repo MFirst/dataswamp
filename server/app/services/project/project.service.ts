@@ -18,29 +18,32 @@ export default class ProjectService implements IProjectService {
         await sqlExecutor.insertValues('projects', columnNames, values, 1);
     }
 
-    public async getProjects() : Promise<any>{
+    public async getProjects(): Promise<any> {
 
         let sqlExecutor = new SQLExecutor('dataswamp');
 
-        var projects= await sqlExecutor.getAll('projects');
+        var projects = await sqlExecutor.getAll('projects');
 
         return projects;
     }
 
-    public async getProjectbyId(projectId: number) : Promise<any>{
+    public async getProjectbyId(projectId: number): Promise<any> {
 
         let sqlExecutor = new SQLExecutor('dataswamp');
 
         var project = await sqlExecutor.getById('projects', projectId);
-    
+
         return project;
     }
 
-    public async deleteProjectById(projectId: number): Promise<void>{
+    public async deleteProjectById(projectId: number): Promise<void> {
 
         let sqlExecutor = new SQLExecutor('dataswamp');
-    }
 
+        await sqlExecutor.deleteById('projects', projectId);
+
+        return;
+    }
 
     private async generateDbName(): Promise<string> {
 
