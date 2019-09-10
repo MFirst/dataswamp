@@ -1,46 +1,39 @@
 
 import SQLExecutor from '../ds/sql.executor';
-
-const uuidv4 = require('uuid/v4')
-
 import { saltHashPassword } from '../utils/hashPass';
 
-export default class UserService {
-  constructor(dbName: string) {
-    this.sqlExecutor = new SQLExecutor(dbName);
-  }
+const tableName = 'users';
+const uuidv4 = require('uuid/v4')
 
-  public sqlExecutor: SQLExecutor;
+export default class UserService {
+  constructor(private sqlExecutor: SQLExecutor) {
+  }
 
   async createUser({ email, password }: any) {
     const uid = uuidv4();
 
     const salt = saltHashPassword(password);
 
-    return await this.sqlExecutor.insertValues('user', ['uid', 'email', 'password', 'salt'], [[uid, email, password, salt]])
+    return await this.sqlExecutor.insertValues(tableName, ['uid', 'email', 'password', 'salt'], [[uid, email, password, salt]])
   }
 
-  static getUserByEmail(email: string) {
-
-  }
-
-  static getUserById(id: number) {
+  async getUserByEmail(email: string) {
 
   }
 
-  static deleteUser(id: number) {
+  async getUserById(id: number) {
+    return await this.sqlExecutor.getById(tableName, id);
+  }
+
+  async deleteUser(id: number) {
 
   }
 
-  static patchUser(id: number) {
+  async patchUser(id: number) {
 
   }
 
-  static putUser(id: number) {
+  async putUser(id: number) {
 
   }
-
 }
-
-
-// https://ciphertrick.com/salt-hash-passwords-using-nodejs-crypto/
