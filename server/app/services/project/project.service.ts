@@ -5,42 +5,38 @@ var uuid4 = require('uuid4');
 
 export default class ProjectService implements IProjectService {
 
+    constructor(public sqlExecutor: SQLExecutor){
+
+    }
+
     public async createProject(userId: string, projectName: string, description: string): Promise<void> {
 
         let dbName = this.createInfrastructure();
-
-        let sqlExecutor = new SQLExecutor('dataswamp');
 
         let columnNames = ['name', 'description', 'databaseName', 'userId'];
 
         let values = [[projectName, description, dbName, userId]];
 
-        await sqlExecutor.insertValues('projects', columnNames, values, 1);
+        await this.sqlExecutor.insertValues('projects', columnNames, values, 1);
     }
 
-    public async getProjects(): Promise<any> {
+    public async getProjects(): Promise<Array<any>> {
 
-        let sqlExecutor = new SQLExecutor('dataswamp');
-
-        var projects = await sqlExecutor.getAll('projects');
+        var projects = await this.sqlExecutor.getAll('projects');
 
         return projects;
     }
 
     public async getProjectbyId(projectId: number): Promise<any> {
 
-        let sqlExecutor = new SQLExecutor('dataswamp');
-
-        var project = await sqlExecutor.getById('projects', projectId);
+        var project = await this.sqlExecutor.getById('projects', projectId);
 
         return project;
     }
 
     public async deleteProjectById(projectId: number): Promise<void> {
 
-        let sqlExecutor = new SQLExecutor('dataswamp');
-
-        await sqlExecutor.deleteById('projects', projectId);
+        await this.sqlExecutor.deleteById('projects', projectId);
 
         return;
     }
@@ -54,35 +50,33 @@ export default class ProjectService implements IProjectService {
 
         let dbName = await this.generateDbName();
 
-        let sqlExecutor = new SQLExecutor(dbName);
-
-        await this.createSourcesTable(sqlExecutor);
-        await this.createColumnsTable(sqlExecutor);
+        await this.createSourcesTable();
+        await this.createColumnsTable();
 
         return dbName;
     }
 
-    private async createSourcesTable(sqlExecutor: SQLExecutor): Promise<void> {
+    private async createSourcesTable(): Promise<void> {
 
-        if (!sqlExecutor) {
+        if (!this.sqlExecutor) {
 
             throw new Error("sqlExecutor is null");
         }
 
         var columnNames = ['projectId', 'fileName', 'description', 'progress'];
 
-        await sqlExecutor.createTable('sources', columnNames);
+        await this.sqlExecutor.createTable('sources', columnNames);
     }
 
-    private async createColumnsTable(sqlExecutor: SQLExecutor): Promise<void> {
+    private async createColumnsTable(): Promise<void> {
 
-        if (!sqlExecutor) {
+        if (!this.sqlExecutor) {
 
             throw new Error("sqlExecutor is null");
         }
 
         let columnNames = ['surceId', 'columnName', 'sortOrder'];
 
-        await sqlExecutor.createTable('columns', columnNames);
+        await this.sqlExecutor.createTable('columns', columnNames);
     }
 }
