@@ -1,3 +1,4 @@
 export interface IBase{
-  Map(base: IBase): Array<string[]>;
+  Map(): Array<string[]>;
+  MapDataSet(dataSet: Array<string[]>): IBase;
 }
