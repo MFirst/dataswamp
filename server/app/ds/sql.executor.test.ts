@@ -28,6 +28,11 @@ describe("SQL Executor", function() {
     );
   });
 
+  it("expect to remove row with id 1", async () => {
+     const row = await executor.deleteById("projects", 1);
+     console.log(row);
+  });
+
   it("expect to get row with id 2", async () => {
     const row = await executor.getById("projects", 2);
     expect(row.id).to.eq(2);
@@ -35,7 +40,7 @@ describe("SQL Executor", function() {
 
   it("expect to get al 3", async () => {
     const rows = await executor.getAll("projects");
-    expect(rows.length).to.eq(3);
+    expect(rows.length).to.eq(2);
   });
 
   it("expect to remove database file", () => {
