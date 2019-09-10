@@ -1,4 +1,3 @@
 export interface IBase{
-    
-    Map(base: IBase): any[][];
+  Map(base: IBase): Array<string[]>;
 }

@@ -7,6 +7,7 @@
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/index.ts",
     "test": "mocha -r ts-node/register app/**/*.test.ts",
+    "testMapper": "mocha -r ts-node/register app/**/mapper.test.ts",
     "testWithCoverage": "nyc -r text -e .ts -x \"app/**/*.test.ts\" mocha -r ts-node/register app/**/*.test.ts",
     "testDB": "mocha -r ts-node/register app/**/ds/*.test.ts"
   },
