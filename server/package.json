@@ -20,7 +20,8 @@
     "sqlite3": "^4.0.9",
     "swagger-express-middleware": "^2.0.3",
     "ts-node-dev": "^1.0.0-pre.40",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "uuid4": "^1.1.4"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
