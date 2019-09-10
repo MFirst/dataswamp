@@ -2,14 +2,23 @@ import { expect } from 'chai';
 import UserService from './user.service';
 import SQLExecutor from '../ds/sql.executor';
 
-const userService = new UserService(new SQLExecutor('user-db-test'));
+const sqlExec = new SQLExecutor('user-db-test');
+const userService = new UserService(sqlExec);
 
 describe('Test Create User', function () {
-  it('createUser', function () {
+  it('createUser', async function () {
     const user = {
       email: 'test@agregarena.ro',
       password: '12345678'
     }
-    expect(userService.createUser(user)).to.equal('a')
+
+    await userService.createUser(user);
+    const response = await sqlExec.getAll('users');
+    console.log(response, 'Response')
   })
+
+  // it('getUserById', function () {
+  //   const id = 12345;
+  //   expect(userService.getUserById(id)).to.equal(id);
+  // })
 });
