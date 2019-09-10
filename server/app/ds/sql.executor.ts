@@ -43,6 +43,13 @@ export default class SQLExecutor {
     }
   }
 
+  public async deleteById(tableName: String, id: number): Promise<any> {
+    return await this.connector.getSingle(
+      `DELETE FROM ${tableName} where id = ?`,
+      [id]
+    );
+  }
+
   public async getById(tableName: String, id: number): Promise<any> {
     return await this.connector.getSingle(
       `SELECT * FROM ${tableName} where id = ?`,
