@@ -18,9 +18,8 @@ export class Base implements IBase {
       Object.keys(this).forEach((key: string) => {
         resultKeys.push(key)
         if (this.hasOwnProperty(key)) {
-          const val = this[key];
+          resultValues.push(`${this[key]}`)
         }
-        resultValues.push(this[key])
       });
 
       result.push(resultKeys)
